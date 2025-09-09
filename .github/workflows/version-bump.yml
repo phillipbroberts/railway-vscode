@@ -60,6 +60,9 @@ jobs:
           ## Changes in this release
           - Version bump from workflow dispatch
           
+          **Note:** This release has been created but not yet published to the VS Code Marketplace.
+          To publish, run the "Publish to VS Code Marketplace" workflow.
+          
           See [commit history](https://github.com/${{ github.repository }}/commits/v${{ steps.package-version.outputs.current-version }}) for details.
         draft: false
         prerelease: false
