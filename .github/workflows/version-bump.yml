@@ -1,5 +1,9 @@
 name: Bump Version
 
+# This workflow automates version bumping
+# Just run it from GitHub Actions and select version type
+# It will handle all git operations automatically
+
 on:
   workflow_dispatch:
     inputs:
