@@ -38,7 +38,12 @@ jobs:
       run: npm ci
     
     - name: Bump version
-      run: npm version ${{ github.event.inputs.version }} -m "chore: bump version to %s"
+      run: |
+        npm version ${{ github.event.inputs.version }} --no-git-tag-version
+        VERSION=$(node -p "require('./package.json').version")
+        git add package.json package-lock.json
+        git commit -m "chore: bump version to ${VERSION}"
+        git tag -a "v${VERSION}" -m "Version ${VERSION}"
     
     - name: Push changes
       run: |
