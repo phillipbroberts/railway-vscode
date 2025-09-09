@@ -1,5 +1,12 @@
 name: CI
 
+# This workflow runs on every push/PR to validate the code
+# To release a new version:
+# 1. Go to Actions tab
+# 2. Select "Bump Version" workflow
+# 3. Click "Run workflow" and choose version type (patch/minor/major)
+# 4. This will create a release, which triggers the publish workflow
+
 on:
   push:
     branches: [ main ]

@@ -56,5 +56,10 @@ jobs:
       with:
         tag_name: v${{ steps.package-version.outputs.current-version }}
         release_name: Release v${{ steps.package-version.outputs.current-version }}
+        body: |
+          ## Changes in this release
+          - Version bump from workflow dispatch
+          
+          See [commit history](https://github.com/${{ github.repository }}/commits/v${{ steps.package-version.outputs.current-version }}) for details.
         draft: false
         prerelease: false
