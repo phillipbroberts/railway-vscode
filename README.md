@@ -1,92 +1,96 @@
 # Railway Monitor for VS Code
 
-A Visual Studio Code extension for monitoring Railway deployments and viewing application logs directly within your IDE.
+Monitor your Railway deployments and logs directly from VS Code.
+
+![CI](https://github.com/phillipbroberts/railway-vscode/workflows/CI/badge.svg)
+![Version](https://img.shields.io/visual-studio-marketplace/v/your-publisher-name.railway-monitor)
+![Downloads](https://img.shields.io/visual-studio-marketplace/d/your-publisher-name.railway-monitor)
 
 ## Features
 
-- 🚂 **Real-time Deployment Status**: View all your Railway projects, environments, services, and deployments in a tree view
-- 📝 **Live Log Streaming**: Access deployment logs with auto-refresh capabilities
-- 🔄 **Auto-refresh**: Automatically updates deployment status at configurable intervals
-- 🔐 **Secure Authentication**: Store your Railway API token securely in VS Code settings
-- 🎨 **Theme Integration**: Seamlessly integrates with your VS Code theme
+- 🚂 **Real-time Deployment Monitoring** - View all your Railway projects, environments, services, and deployments in a tree view
+- 📊 **Deployment Status** - Visual indicators for deployment status (success, failed, building, etc.)
+- 📝 **Deployment Logs** - View build and deployment logs with one click
+- 🔔 **Status Notifications** - Get notified when deployments complete
+- 🔄 **Auto-refresh** - Automatically updates every 30 seconds
+- 👥 **Team Support** - Works with both personal and team API tokens
 
 ## Installation
 
-1. Install from the VS Code Marketplace (coming soon)
-2. Or install manually:
-   - Clone this repository
-   - Run `npm install` in the project directory
-   - Run `npm run compile` to build the extension
-   - Press `F5` in VS Code to run the extension in a new Extension Development Host window
+1. Install from [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=your-publisher-name.railway-monitor)
+2. Or search for "Railway Monitor" in VS Code Extensions
 
 ## Setup
 
-1. Get your Railway API token from [Railway Dashboard](https://railway.app/account/tokens)
-2. When you first activate the extension, you'll be prompted to enter your API token
-3. Alternatively, you can set it via:
-   - Command Palette: `Railway: Set API Token`
-   - Or in VS Code settings: `railwayMonitor.apiToken`
+1. Get your Railway API token from [https://railway.app/account/tokens](https://railway.app/account/tokens)
+2. Open Command Palette (`Cmd+Shift+P` or `Ctrl+Shift+P`)
+3. Run "Railway: Set API Token"
+4. Paste your token
 
 ## Usage
 
 ### View Deployments
-- Open the Explorer sidebar in VS Code
-- Find the "Railway Deployments" section
-- Browse through your projects, environments, services, and deployments
-- Deployment status is indicated by icons:
-  - ✅ Success
-  - ❌ Failed/Crashed
-  - 🔄 Building/Deploying
-  - ⭕ Cancelled/Removed
+- Click the Railway icon in the Activity Bar (left sidebar)
+- Navigate through Projects → Environments → Services → Deployments
 
 ### View Logs
-- Click on any deployment in the tree view to open its logs
-- Use the log viewer controls to:
-  - Refresh logs manually
-  - Toggle auto-refresh (updates every 5 seconds)
-  - Clear the log display
+- **Deployment Logs**: Click on any deployment in the tree
+- **Application Logs**: Coming soon!
 
 ### Commands
-All commands are available through the Command Palette (`Cmd+Shift+P` / `Ctrl+Shift+P`):
-
-- `Railway: Refresh Deployments` - Manually refresh the deployment tree
 - `Railway: Set API Token` - Configure your Railway API token
-- `Railway: Clear API Token` - Remove the stored API token
-- `Railway: Show Deployment Logs` - View logs for a specific deployment
-
-## Configuration
-
-This extension contributes the following settings:
-
-- `railwayMonitor.apiToken`: Your Railway API token
-- `railwayMonitor.autoRefreshInterval`: Auto-refresh interval in seconds (default: 30)
+- `Railway: Clear API Token` - Remove stored token
+- `Railway: Refresh Deployments` - Manually refresh the deployment tree
 
 ## Development
 
 ### Prerequisites
-- Node.js 16.x or higher
-- VS Code 1.103.0 or higher
+- Node.js 18.x or higher
+- npm or yarn
 
-### Building from Source
+### Setup
 ```bash
-# Clone the repository
-git clone https://github.com/yourusername/railway-monitor-vscode.git
-cd railway-monitor-vscode/railway-monitor
-
-# Install dependencies
+git clone https://github.com/phillipbroberts/railway-vscode.git
+cd railway-vscode
 npm install
-
-# Compile TypeScript
-npm run compile
-
-# Run tests
-npm test
 ```
 
-### Testing the Extension
-1. Open the project in VS Code
-2. Press `F5` to open a new VS Code window with the extension loaded
-3. Open a project and test the Railway Monitor features
+### Running locally
+1. Open in VS Code
+2. Press `F5` to launch Extension Development Host
+3. The extension will be available in the new VS Code window
+
+### Building
+```bash
+npm run compile  # Compile TypeScript
+npm run watch    # Watch mode
+npm run lint     # Run linter
+npm test         # Run tests
+```
+
+### Publishing
+
+#### Automated (GitHub Actions)
+1. Create a release on GitHub
+2. GitHub Actions will automatically publish to VS Code Marketplace
+
+#### Manual
+```bash
+npm install -g @vscode/vsce
+vsce package
+vsce publish
+```
+
+## CI/CD
+
+This project uses GitHub Actions for:
+- **CI**: Runs on every push and PR (testing, linting, building)
+- **Publishing**: Automatically publishes to VS Code Marketplace on release
+- **Version Bumping**: Workflow for automated version management
+
+### Setting up Publishing
+1. Create a Personal Access Token at [Azure DevOps](https://dev.azure.com/)
+2. Add it as `VSCE_PAT` secret in GitHub repository settings
 
 ## Contributing
 
@@ -98,18 +102,32 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
+## Known Issues
+
+- Application/runtime logs are not yet available (Railway API limitation)
+- Right-click context menus may not appear on some systems
+
+## Roadmap
+
+- [ ] Application/runtime logs support
+- [ ] Deployment rollback functionality
+- [ ] Environment variable management
+- [ ] Service restart capabilities
+- [ ] Resource usage monitoring
+
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-Copyright (c) 2025 R Software & Consulting, LLC
+MIT - see [LICENSE](LICENSE) file for details
 
 ## Support
 
-If you encounter any issues or have feature requests, please file them in the [GitHub Issues](https://github.com/yourusername/railway-monitor-vscode/issues) section.
+- [Report Issues](https://github.com/phillipbroberts/railway-vscode/issues)
+- [Request Features](https://github.com/phillipbroberts/railway-vscode/issues/new)
 
-## Acknowledgments
+## Credits
 
-- Railway for providing the API and platform
-- VS Code team for the excellent extension API
-- All contributors and users of this extension
+Created by [Phillip Roberts](https://github.com/phillipbroberts)
+
+---
+
+**Enjoy monitoring your Railway deployments!** 🚂
