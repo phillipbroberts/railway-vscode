@@ -7,13 +7,8 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        node-version: [18.x, 20.x]
-    
-    runs-on: ${{ matrix.os }}
+  build:
+    runs-on: ubuntu-latest
     
     steps:
     - name: Checkout
@@ -22,7 +17,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: '20.x'
         cache: 'npm'
     
     - name: Install dependencies
@@ -36,16 +31,44 @@ jobs:
       continue-on-error: true  # Don't fail on lint warnings for now
     
     - name: Run tests
+      run: xvfb-run -a npm test
+      if: runner.os == 'Linux'
+    
+    - name: Run tests
       run: npm test
-      if: matrix.os == 'ubuntu-latest'  # Tests only run properly on Linux in CI
+      if: runner.os != 'Linux'
+    
+    - name: Install vsce
+      run: npm install -g @vscode/vsce
     
     - name: Package extension
-      run: npx vsce package
-      if: matrix.os == 'ubuntu-latest' && matrix.node-version == '20.x'
+      run: vsce package --no-dependencies
     
     - name: Upload VSIX artifact
       uses: actions/upload-artifact@v4
-      if: matrix.os == 'ubuntu-latest' && matrix.node-version == '20.x'
       with:
         name: railway-monitor-vsix
         path: '*.vsix'
+  
+  test-multi-platform:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Compile TypeScript
+      run: npm run compile
