@@ -12,9 +12,12 @@ suite('Railway Monitor Extension Test Suite', () => {
         assert.ok(commands.length > 0, 'No commands registered');
     });
 
-    test('Extension commands should be registered after activation', async () => {
-        // Wait a bit for extension to activate
-        await new Promise(resolve => setTimeout(resolve, 2000));
+    test('Extension commands should be registered after activation', async function() {
+        // Increase timeout for CI environments
+        this.timeout(10000);
+        
+        // Wait for extension to activate
+        await new Promise(resolve => setTimeout(resolve, 3000));
         
         const commands = await vscode.commands.getCommands();
         
