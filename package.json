@@ -1,0 +1,143 @@
+{
+  "name": "railway-monitor",
+  "displayName": "Railway Monitor",
+  "description": "Monitor Railway deployments and logs directly in VS Code",
+  "version": "0.0.1",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/phillipbroberts/railway-vscode"
+  },
+  "publisher": "your-publisher-name",
+  "engines": {
+    "vscode": "^1.103.0"
+  },
+  "icon": "icon.png",
+  "categories": [
+    "Other",
+    "Debuggers",
+    "Programming Languages"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "Railway Monitor",
+      "properties": {
+        "railwayMonitor.apiToken": {
+          "type": "string",
+          "default": "",
+          "description": "Railway API token for authentication",
+          "markdownDescription": "Your Railway API token. Get it from [Railway Dashboard](https://railway.app/account/tokens)"
+        },
+        "railwayMonitor.autoRefreshInterval": {
+          "type": "number",
+          "default": 30,
+          "description": "Auto-refresh interval in seconds for deployment status"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "railwayMonitor.refreshDeployments",
+        "title": "Refresh Deployments",
+        "category": "Railway",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "railwayMonitor.showDeploymentLogs",
+        "title": "Show Deployment Logs",
+        "category": "Railway",
+        "icon": "$(output)"
+      },
+      {
+        "command": "railwayMonitor.showApplicationLogs",
+        "title": "Show Application Logs",
+        "category": "Railway",
+        "icon": "$(terminal)"
+      },
+      {
+        "command": "railwayMonitor.clearApiToken",
+        "title": "Clear API Token",
+        "category": "Railway"
+      },
+      {
+        "command": "railwayMonitor.setApiToken",
+        "title": "Set API Token",
+        "category": "Railway"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "railway-monitor",
+          "title": "Railway Monitor",
+          "icon": "$(cloud-download)"
+        }
+      ]
+    },
+    "views": {
+      "railway-monitor": [
+        {
+          "id": "railwayDeployments",
+          "name": "Deployments",
+          "icon": "$(cloud)",
+          "contextualTitle": "Railway Deployments"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "railwayMonitor.refreshDeployments",
+          "when": "view == railwayDeployments",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "railwayMonitor.showApplicationLogs",
+          "when": "view == railwayDeployments && viewItem == service",
+          "group": "navigation"
+        },
+        {
+          "command": "railwayMonitor.showDeploymentLogs",
+          "when": "view == railwayDeployments && viewItem == deployment",
+          "group": "navigation"
+        },
+        {
+          "command": "railwayMonitor.showApplicationLogs",
+          "when": "view == railwayDeployments && viewItem == service",
+          "group": "inline"
+        },
+        {
+          "command": "railwayMonitor.showDeploymentLogs",
+          "when": "view == railwayDeployments && viewItem == deployment",
+          "group": "inline"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "@types/vscode": "^1.103.0",
+    "@typescript-eslint/eslint-plugin": "^8.42.0",
+    "@typescript-eslint/parser": "^8.42.0",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2",
+    "eslint": "^9.34.0",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "axios": "^1.11.0"
+  }
+}
